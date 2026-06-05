@@ -3,7 +3,7 @@ lista_registro = [] # guarda os dicts de registros
 
 # exemplo de estrutura dict
 
-#registro = {
+#registro_id(0,1,2....) = {
 #    nome : str "nome"
 #    idade : int "idade"
 #    produto : {
@@ -12,6 +12,25 @@ lista_registro = [] # guarda os dicts de registros
  #      preco : float "preco"
 #        }
 #}
-lista_produtos = ["Chápeu","Vestido","Calça","Camisa"] #lista de produto
 categorias_roupas = ("Adulta","Juvenil") # lista imutavel de categoria de roupas
+
 tamanhos_fixos = ("P","M","G") # lista imutavel de tamanhos
+
+dicionario_preco_produto = { #armazena os preços dos produtos disponiveis, #cada tamanho aumenta o preço em 20% transformando em int
+    "chapeu" : {
+        "preco_base_juvenil" : 25,
+        "preco_base_adulto" : 40
+    },
+    "vestido" : {
+        "preco_base_juvenil" : 30,
+        "preco_base_adulto" : 45
+    },
+    "Calça" : {
+        "preco_base_juvenil" : 25,
+        "preco_base_adulto" : 40
+    },
+    "Camisa" : {
+        "preco_base_juvenil" : 25,
+        "preco_base_adulto" : 40
+    },
+} 

@@ -12,11 +12,10 @@ lista_registro = [] # guarda os dicts de registros
  #      preco : float "preco"
 #        }
 #}
-categorias_roupas = ("Adulta","Juvenil") # lista imutavel de categoria de roupas
+categorias_roupas = ("adulta","juvenil") # lista imutavel de categoria de roupas
 
 tamanhos_fixos = ("P","M","G") # lista imutavel de tamanhos
-
-dicionario_preco_produto = { #armazena os preços dos produtos disponiveis, #cada tamanho aumenta o preço em 20% transformando em int
+dicionario_produto = { #armazena os preços dos produtos disponiveis, #cada tamanho aumenta o preço em 20% transformando em int
     "chapeu" : {
         "preco_base_juvenil" : 25,
         "preco_base_adulto" : 40

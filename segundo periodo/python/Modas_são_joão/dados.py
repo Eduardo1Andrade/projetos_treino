@@ -12,7 +12,7 @@ dicionario_registros = {}
  #      preco : float "preco"
 #        }
 #}
-categorias_roupas = ("adulto","juvenil") # lista imutavel de categoria de roupas
+categorias_roupas = {"adulto","juvenil"} # lista imutavel de categoria de roupas
 
 tamanhos_fixos = ("P","M","G") # lista imutavel de tamanhos
 

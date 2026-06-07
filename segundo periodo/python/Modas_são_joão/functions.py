@@ -3,18 +3,13 @@
 def criar_novo_registro():
     '''cria registro de venda de acordo com nome da pessoa,roupa escolhida,tamanho escolhido ,idade da pessoa 
     e armazena em um dict
-    
-    Arg: none
-
-    Returns: Dict de registros atualizado
-
     '''
     import dados  #importa os dados para tratamento de erros
 
     nome = input("digite o nome do cliente: ")
     idade = input("digite a idade do cliente: ")
-    produto = input("digite a roupa que o cliente escolheu: ")
-    tamanho_roupa = input("digite o tamanho da roupa de escolha do cliente: ")
+    produto = input("digite a roupa que o cliente escolheu [camisa,calça,chapeu,vestido]:  ")
+    tamanho_roupa = input("digite o tamanho da roupa de escolha do cliente [P,M,G]: ")
 
     try: #idade com numero incorreto
         idade = int(idade)
@@ -58,6 +53,7 @@ def criar_novo_registro():
     nome = nome.casefold()
     nome = nome.title() #metodos para Formatação de string
 
+
     dados.dicionario_registros[dados.id_atual] = { #criação do dict de registro
         "nome" : nome,
         "idade" : idade,
@@ -74,25 +70,27 @@ def criar_novo_registro():
     return dados.dicionario_registros
 
 def editar_registro():
+    ''' função que permite editar um registros seja nome ou idade do cliente,produto,tamanho,categoria ou preço mas não permite editar o id'''
     import dados 
 
-    id_editar = input("digite o ID do registro para editar: ")
+
+    id_editar = input("digite o ID do registro para editar: ") #para fazer a busca por id
 
     try: #id com numero incorreto
         id_editar = int(id_editar)
 
-    except ValueError:
+    except ValueError: 
         print("ops você digitou número invválido, por favor tente novamente!!!")
         return 0
 
     try:
         registro_id = dados.dicionario_registros[id_editar]
 
-    except KeyError:
+    except KeyError: #caso o id não exista
         print("ops registro não encontrado ou inexistente!!!")
         return 0
 
-    while True:
+    while True: #para poder continuar editando até que escolha sair
         comando = input('''selecione um comando:
             Editar nome[1]
             Editar idade[2]
@@ -102,7 +100,7 @@ def editar_registro():
             Editar preço[6]
             Sair[7]
         :''')
-        if comando == "1":
+        if comando == "1": #permite editar nome
             print("você escolheu editar nome!!")
 
             novo_nome = input("digite o novo nome: ")
@@ -118,7 +116,7 @@ def editar_registro():
             print("novo nome registrado com sucesso!!")
             return registro_id
 
-        elif comando == "2":
+        elif comando == "2": #permite editar a idade do usuario idependente se passar das regras de ter menos de 14 ou mais 60 anos
             print("você escolheu editar idade!!")
 
             novo_idade = input("digite o novo idade: ")   
@@ -135,9 +133,9 @@ def editar_registro():
             registro_id["idade"] = novo_idade
 
             print("nova idade registrado com sucesso!!")
-            return registro_id
+            pass
 
-        elif comando == "3":
+        elif comando == "3": #permite editar o nome do produto se for valido
             print("você escolheu editar produto!!")
 
             novo_produto = input("digite o nome do produto: ")
@@ -150,10 +148,10 @@ def editar_registro():
             registro_id["produto"] = novo_produto
 
             print("novo produto editado com sucesso!!")
-            return registro_id
+            pass
 
         
-        elif comando == "4":
+        elif comando == "4": #permite editar tamanho da roupa
             print("você escolheu editar tamanho!!")
 
             novo_tamanho = input("digite o nome do tamanho: ")
@@ -166,9 +164,9 @@ def editar_registro():
             registro_id["tamanho"] = novo_tamanho
 
             print("novo tamanho editado com sucesso!!")
-            return registro_id
+            pass
             
-        elif comando == "5":
+        elif comando == "5": #permite editar categoria de roupa
             print("você escolheu editar categoria de roupa!!")
 
             novo_categoria = input("digite o nome da categoria de roupa: ")
@@ -181,14 +179,14 @@ def editar_registro():
             registro_id["categoria"] = novo_categoria
 
             print("novo categoria editado com sucesso!!")
-            return registro_id
+            pass
 
-        elif comando == "6":
+        elif comando == "6": #permite editar
             print("você escolheu editar preço!!")
 
             novo_preco = input("digite o nome do preco: ")
 
-            try:
+            try: #para erro de valor incorreto
                 novo_preco = float(novo_preco)
             except ValueError:
                 print("ops numero invalido por favor tente novamente!!!")
@@ -199,21 +197,22 @@ def editar_registro():
             registro_id["preco"] = novo_preco
 
             print("novo preco editado com sucesso!!")
-            return registro_id
+            pass
 
-        elif comando == "7":
+        elif comando == "7": #permite sair
             break
         else:
             print("você digitou um comando invalido por favor tente novamente!!")
             pass
     
-def excluir_registro():
+def excluir_registro(): #para exluir um registro por id
+    '''função que permite exluir um registro por ID com confirmação do uúsario '''
     import dados
     id_excluir = input("digite o ID do registro a ser excluido: ")
     
     try:
         id_excluir = int(id_excluir)
-    except ValueError:
+    except ValueError: #verifica se o id é numero
         print("ops numero invalido tente novamente!!!")
         return 0
     
@@ -222,8 +221,11 @@ def excluir_registro():
     if confirmacao == "sim":
         print("excluindo....")
 
-        dados.dicionario_registros.pop(id_excluir)
-
+        try: #trata caso o item não exista
+            dados.dicionario_registros.pop(id_excluir)
+        except KeyError:
+            print("ops registro invalido ou inexistente!!!!")
+            return 0
         print("item excluido com sucesso!!!")
     
     elif confirmacao == "nao":
@@ -233,5 +235,64 @@ def excluir_registro():
     else:
         print("comando invalido!!")
         return 0
+
     
+def listar_registro():
+
+    '''função que lista todos os registros com formação '''
+    import dados
+
+    try: #trata caso exista algo para listar
+        for id_registro, registro in dados.dicionario_registros.items():
+            print(f"Registro {id_registro}")
     
+            for chave, valor in registro.items():
+                print(f"{chave} : {valor}")
+    
+            print("-" * 20)
+
+        return 0
+
+    except UnboundLocalError:
+        print("nao há registros !!!!")
+
+def buscar_registro():
+    '''função que permite a busca de um registro em expecifico por ID'''
+    import dados
+    id_busca = input("digite o id do registro a ser buscado: ")
+
+    try: #tenta tratar se é numero
+        id_busca = int(id_busca)
+
+    except ValueError:
+        print("digite um numero valido!!")
+        return 0
+
+    if id_busca not in dados.dicionario_registros:#caso o item não exista na lista
+        print("ops registro não encontrado ou inexistente!!!")
+        return 0
+    
+    for chave, valor in dados.dicionario_registros[id_busca].items():
+        print(f"{chave} : {valor}")
+
+    print("-" * 20)
+    return 0
+
+def gerar_relatorio():
+    '''função que gera um relatorio simples de numero de vendas e saldo final'''
+    import dados
+
+    saldo = 0 
+    vendas = 0
+
+    try:
+        for id_valor in dados.dicionario_registros.values():
+            venda += 1
+            saldo += id_valor["preco"]
+    except UnboundLocalError:
+        print("não há registros!!!")
+    
+    print(f"Saldo Final: {saldo:.2f}, Número de Vendas = {venda}")
+    return 0
+
+#tava acontecendo um bug de unbound erro e para evitar coloquei um try para tratar disso que é para quando não term algo a ser listado no for na função listar_registro

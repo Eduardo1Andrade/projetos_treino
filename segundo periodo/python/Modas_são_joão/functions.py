@@ -9,7 +9,7 @@ def criar_novo_registro():
     Returns: Dict de registros atualizado
 
     '''
-    from dados import dicionario_produto,tamanhos_fixos, id_atual,dicionario_registros #importa os dados para tratamento de erros
+    import dados  #importa os dados para tratamento de erros
 
     nome = input("digite o nome do cliente: ")
     idade = input("digite a idade do cliente: ")
@@ -23,28 +23,28 @@ def criar_novo_registro():
         print("ops você digitou número invválido, por favor tente novamente!!!")
         return 0
 
-    if produto not in dicionario_produto: #produto invalido
+    if produto not in dados.dicionario_produto: #produto invalido
         print("ops você digitou um produto inválido, por favor tente novamente!!")
         return 0
 
-    if tamanho_roupa not in tamanhos_fixos: #tamanho invalido
+    if tamanho_roupa not in dados.tamanhos_fixos: #tamanho invalido
         print("ops você digitou um tamanho inválido, por favor tente novamente!!!")
         return 0
     
-    if idade > 12 and idade < 18: #define o tipo de linha de roupa sendo juvenil ou adulta 
-        linha_produto = "juvenil"
+    if idade > 12 and idade < 18: #define o tipo de categoria de roupa sendo juvenil ou adulta 
+        categoria_produto = "juvenil"
 
     elif idade < 60: 
-        linha_produto = "adulto"
+        categoria_produto = "adulto"
     else: 
         print("a idade digitada não é contemplada pelos produto da loja tente novamente!!!") #caso a idade não seja adulta e nem infantil
         return 0
 
-    if linha_produto == "juvenil": #aplica preco com base na linha jovem ou adulta
-        preco = dicionario_produto[produto]["preco_base_juvenil"]
+    if categoria_produto == "juvenil": #aplica preco com base na categoria jovem ou adulta
+        preco = dados.dicionario_produto[produto]["preco_base_juvenil"]
 
-    elif linha_produto == "adulto":
-        preco = dicionario_produto[produto]["preco_base_adulto"]
+    elif categoria_produto == "adulto":
+        preco = dados.dicionario_produto[produto]["preco_base_adulto"]
 
     else:
         print("ops erro ao definir preço")
@@ -58,19 +58,180 @@ def criar_novo_registro():
     nome = nome.casefold()
     nome = nome.title() #metodos para Formatação de string
 
-    dicionario_registros[f"registro_id_{id_atual + 1}"] = { #criação do dict de registro
+    dados.dicionario_registros[dados.id_atual] = { #criação do dict de registro
         "nome" : nome,
         "idade" : idade,
-        "id" : id_atual + 1,
+        "id" : dados.id_atual,
+        "produto" : produto,
         "tamanho" : tamanho_roupa,
-        "linha" : linha_produto,
+        "categoria" : categoria_produto,
         "preco" : preco
     }
-    print(dicionario_registros)
-    return 0
 
+    dados.id_atual += 1
+    print("registro criado com sucesso!!!")
 
+    return dados.dicionario_registros
 
+def editar_registro():
+    import dados 
+
+    id_editar = input("digite o ID do registro para editar: ")
+
+    try: #id com numero incorreto
+        id_editar = int(id_editar)
+
+    except ValueError:
+        print("ops você digitou número invválido, por favor tente novamente!!!")
+        return 0
+
+    try:
+        registro_id = dados.dicionario_registros[id_editar]
+
+    except KeyError:
+        print("ops registro não encontrado ou inexistente!!!")
+        return 0
+
+    while True:
+        comando = input('''selecione um comando:
+            Editar nome[1]
+            Editar idade[2]
+            Editar produto[3]
+            Editar tamanho[4]
+            Editar categoria[5]
+            Editar preço[6]
+            Sair[7]
+        :''')
+        if comando == "1":
+            print("você escolheu editar nome!!")
+
+            novo_nome = input("digite o novo nome: ")
+
+            novo_nome = novo_nome.strip()
+            novo_nome = novo_nome.casefold()
+            novo_nome = novo_nome.title()
+
+            print("processando edição...")
+            
+            registro_id["nome"] = novo_nome
+
+            print("novo nome registrado com sucesso!!")
+            return registro_id
+
+        elif comando == "2":
+            print("você escolheu editar idade!!")
+
+            novo_idade = input("digite o novo idade: ")   
+
+            try: #id com numero incorreto
+                novo_idade = int(novo_idade)
+
+            except ValueError:
+                print("ops você digitou número invválido, por favor tente novamente!!!")
+                return 0
+
+            print("processando edição...")
+
+            registro_id["idade"] = novo_idade
+
+            print("nova idade registrado com sucesso!!")
+            return registro_id
+
+        elif comando == "3":
+            print("você escolheu editar produto!!")
+
+            novo_produto = input("digite o nome do produto: ")
+            if novo_produto not in dados.dicionario_produto:
+                print("produto invalido por favor tente novamente!!")
+                pass
+            
+            print("processando edição....")
+            
+            registro_id["produto"] = novo_produto
+
+            print("novo produto editado com sucesso!!")
+            return registro_id
+
+        
+        elif comando == "4":
+            print("você escolheu editar tamanho!!")
+
+            novo_tamanho = input("digite o nome do tamanho: ")
+            if novo_tamanho not in dados.tamanhos_fixos:
+                print("tamanho invalido por favor tente novamente!!")
+                pass
+            
+            print("processando edição....")
+            
+            registro_id["tamanho"] = novo_tamanho
+
+            print("novo tamanho editado com sucesso!!")
+            return registro_id
+            
+        elif comando == "5":
+            print("você escolheu editar categoria de roupa!!")
+
+            novo_categoria = input("digite o nome da categoria de roupa: ")
+            if novo_categoria not in dados.categorias_roupas:
+                print("categoria de roupa invalido por favor tente novamente!!")
+                pass
+            
+            print("processando edição....")
+            
+            registro_id["categoria"] = novo_categoria
+
+            print("novo categoria editado com sucesso!!")
+            return registro_id
+
+        elif comando == "6":
+            print("você escolheu editar preço!!")
+
+            novo_preco = input("digite o nome do preco: ")
+
+            try:
+                novo_preco = float(novo_preco)
+            except ValueError:
+                print("ops numero invalido por favor tente novamente!!!")
+                pass            
+
+            print("processando edição....")
+            
+            registro_id["preco"] = novo_preco
+
+            print("novo preco editado com sucesso!!")
+            return registro_id
+
+        elif comando == "7":
+            break
+        else:
+            print("você digitou um comando invalido por favor tente novamente!!")
+            pass
+    
+def excluir_registro():
+    import dados
+    id_excluir = input("digite o ID do registro a ser excluido: ")
+    
+    try:
+        id_excluir = int(id_excluir)
+    except ValueError:
+        print("ops numero invalido tente novamente!!!")
+        return 0
+    
+    confirmacao = input(f"você realmente deseja excluir o item de Id = {id_excluir} ?[sim] ou [nao]: ")
+
+    if confirmacao == "sim":
+        print("excluindo....")
+
+        dados.dicionario_registros.pop(id_excluir)
+
+        print("item excluido com sucesso!!!")
+    
+    elif confirmacao == "nao":
+        print("exclusão cancelada!!")
+        return 0
+    
+    else:
+        print("comando invalido!!")
+        return 0
     
     
-

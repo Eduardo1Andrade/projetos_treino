@@ -1,7 +1,7 @@
 ''' aqui ficaram os tipos de dados guardados que serão usados na função main.py'''
-dicionario_registros = {} # guarda os dicts de registros
+dicionario_registros = {}
 
-# exemplo de estrutura dict
+# exemplo de estrutura dict 
 
 #registro_id(0,1,2....) = {
 #    nome : str "nome"
@@ -20,19 +20,19 @@ id_atual = 0 # registro de id dos produtos , começando em 0
 
 dicionario_produto = { #armazena os preços dos produtos disponiveis, #cada tamanho aumenta o preço em 20% transformando em int
     "chapeu" : {
-        "preco_base_juvenil" : 25,
-        "preco_base_adulto" : 40
+        "preco_base_juvenil" : 25.0,
+        "preco_base_adulto" : 40.0
     },
     "vestido" : {
-        "preco_base_juvenil" : 30,
-        "preco_base_adulto" : 45
+        "preco_base_juvenil" : 30.0,
+        "preco_base_adulto" : 45.0
     },
     "calça" : {
-        "preco_base_juvenil" : 25,
-        "preco_base_adulto" : 40
+        "preco_base_juvenil" : 25.0,
+        "preco_base_adulto" : 40.0
     },
     "camisa" : {
-        "preco_base_juvenil" : 25,
-        "preco_base_adulto" : 40
+        "preco_base_juvenil" : 25.0,
+        "preco_base_adulto" : 40.0
     },
 } 

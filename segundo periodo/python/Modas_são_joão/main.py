@@ -19,7 +19,7 @@ def main(): #função principal
             Fazer Relátorio de Vendas[6]
             Listar Produdo[7]
             Gerar tamanhos[8]
-            Sair[8]
+            Sair[9]
             
             : ''')
 
